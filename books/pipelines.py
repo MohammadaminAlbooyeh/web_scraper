@@ -11,6 +11,32 @@ def _ensure_data_dir():
     return DATA_DIR
 
 
+# Try to import pydantic schemas for optional validation. Validation is
+# performed only when an appropriate schema exists for the incoming item
+# type (e.g. ProductItem -> ProductModel). If pydantic is not installed the
+# pipelines will continue to work without validation.
+try:
+    from .schemas import (
+        ProductModel,
+        ReviewModel,
+        CategoryModel,
+        SellerModel,
+        InventoryModel,
+        OrderModel,
+    )
+
+    SCHEMA_MAP = {
+        "ProductItem": ProductModel,
+        "ReviewItem": ReviewModel,
+        "CategoryItem": CategoryModel,
+        "SellerItem": SellerModel,
+        "InventoryItem": InventoryModel,
+        "OrderItem": OrderModel,
+    }
+except Exception:
+    SCHEMA_MAP = {}
+
+
 class JsonLinesPipeline:
     """
     Writes each item as one JSON object per line into data/items.jl
@@ -26,7 +52,19 @@ class JsonLinesPipeline:
             self.file.close()
 
     def process_item(self, item, spider):
-        line = json.dumps(dict(item), ensure_ascii=False)
+        # Attempt to validate/serialize using pydantic schema when available.
+        item_dict = dict(item)
+        item_type = getattr(item, "__class__", None)
+        item_type_name = item_type.__name__ if item_type else type(item).__name__
+
+        schema = SCHEMA_MAP.get(item_type_name)
+        if schema is not None:
+            # Validate and produce JSON using pydantic
+            obj = schema.parse_obj(item_dict)
+            line = obj.json(ensure_ascii=False)
+        else:
+            line = json.dumps(item_dict, ensure_ascii=False)
+
         self.file.write(line + "\n")
         return item
 
@@ -61,7 +99,15 @@ class SQLitePipeline:
     def process_item(self, item, spider):
         item_type = getattr(item, "__class__", None)
         item_type_name = item_type.__name__ if item_type else type(item).__name__
-        data_json = json.dumps(dict(item), ensure_ascii=False)
+
+        item_dict = dict(item)
+        schema = SCHEMA_MAP.get(item_type_name)
+        if schema is not None:
+            obj = schema.parse_obj(item_dict)
+            data_json = obj.json(ensure_ascii=False)
+        else:
+            data_json = json.dumps(item_dict, ensure_ascii=False)
+
         created_at = datetime.utcnow().isoformat() + "Z"
         self.conn.execute(
             "INSERT INTO items (item_type, data, created_at) VALUES (?, ?, ?)",
