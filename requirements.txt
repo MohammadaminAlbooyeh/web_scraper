@@ -1,7 +1,15 @@
-scrapy
-pydantic
-pre-commit
-black
-isort
-flake8
-pytest
+
+# Core
+scrapy>=2.7,<3
+pydantic>=1.10,<2
+
+# Development & CI
+pre-commit>=2.0
+black>=23.0
+isort>=5.0
+flake8>=4.0
+
+# Testing
+pytest>=7.0
+pytest-cov>=4.0
+vcrpy>=4.1

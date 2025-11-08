@@ -50,6 +50,29 @@ pytest
 pre-commit run --all-files
 ```
 
+## Dependencies
+
+All runtime and development dependencies are listed in `requirements.txt` with
+recommended minimum versions. Key packages:
+
+- `scrapy` - the web scraping framework used to run spiders
+- `pydantic` - runtime validation and type coercion for scraped items
+- `pytest` / `pytest-cov` - test runner and coverage reporting
+- `pre-commit`, `black`, `isort`, `flake8` - development tooling and linting
+- `vcrpy` - (optional) record HTTP interactions for integration tests
+
+Install everything with:
+
+```bash
+pip install -r requirements.txt
+```
+
+If you're contributing, run the formatter and linters before submitting a PR:
+
+```bash
+pre-commit run --all-files
+```
+
 ## Data Validation
 
 This project uses Pydantic for comprehensive data validation. Below are the validation rules for scraped book data:

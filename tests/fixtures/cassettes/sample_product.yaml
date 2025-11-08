@@ -1,0 +1,76 @@
+---
+http_interactions:
+- request:
+    method: GET
+    uri: http://books.toscrape.com/catalogue/sample-book_1/index.html
+    body:
+      encoding: UTF-8
+      string: ""
+    headers:
+      Accept: ['*/*']
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type: ['text/html; charset=utf-8']
+    body:
+      encoding: UTF-8
+      string: |
+        <!doctype html>
+        <html>
+          <body>
+            <ul class="breadcrumb">
+              <li><a href="/">Home</a></li>
+              <li><a href="/catalogue/">Books</a></li>
+              <li><a href="/catalogue/category">Fiction</a></li>
+            </ul>
+
+            <div class="product_main">
+              <h1>Sample Book</h1>
+              <p class="price_color">£9.99</p>
+              <p class="star-rating Three">★★★★★</p>
+            </div>
+
+            <div id="product_description">
+              <h2>Product Description</h2>
+            </div>
+            <p>Short description of the sample book.</p>
+
+            <div class="item active">
+              <img src="/media/cache/sample.jpg" />
+            </div>
+
+            <table class="table table-striped">
+              <tr>
+                <th>UPC</th>
+                <td>A123456789</td>
+              </tr>
+              <tr>
+                <th>Product Type</th>
+                <td>Books</td>
+              </tr>
+              <tr>
+                <th>Price (excl. tax)</th>
+                <td>£8.99</td>
+              </tr>
+              <tr>
+                <th>Price (incl. tax)</th>
+                <td>£9.99</td>
+              </tr>
+              <tr>
+                <th>Tax</th>
+                <td>£1.00</td>
+              </tr>
+              <tr>
+                <th>Availability</th>
+                <td>In stock (5 available)</td>
+              </tr>
+              <tr>
+                <th>Number of reviews</th>
+                <td>10</td>
+              </tr>
+            </table>
+          </body>
+        </html>
+recorded_with: vcrpy
