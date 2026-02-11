@@ -9,7 +9,7 @@ import asyncio
 import aiohttp
 from aiohttp import ClientSession
 
-from scraper.items import ProductItem
+from books.items import ProductItem
 
 
 class AsyncBookSpider:

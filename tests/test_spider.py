@@ -1,8 +1,8 @@
 import json
 from scrapy.http import TextResponse, Request
 
-from books.spiders.book_spider import BookSpider
-from books.items import ProductItem
+from scraper.spiders.book_spider import BookSpider
+from scraper.items import ProductItem
 
 
 def test_book_spider_parses_listing():

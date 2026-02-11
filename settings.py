@@ -15,8 +15,8 @@ USER_AGENT = os.getenv("SCRAPER_USER_AGENT", "web_scraper (+https://example.com)
 
 # Tell Scrapy where to find spiders for this project. Spiders live in the
 # existing `books.spiders` package (we didn't move your spider files).
-SPIDER_MODULES = ["books.spiders"]
-NEWSPIDER_MODULE = "books.spiders"
+SPIDER_MODULES = ["scraper.spiders"]
+NEWSPIDER_MODULE = "scraper.spiders"
 
 # Enable default item pipelines (can be adjusted in project settings)
 ITEM_PIPELINES = {
